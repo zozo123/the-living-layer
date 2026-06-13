@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THE LIVING LAYER — Sandboxes, State, One Substrate · zozo123</title>
+<meta name="description" content="In the AI era, software will not be deployed. It will be projected from a single governed layer of safe execution and living state. A vision by zozo123.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="THE LIVING LAYER — Sandboxes. State. One Substrate.">
+<meta property="og:description" content="The application disappears. What remains is one queryable, executable, sandboxed reality. The future of software by Yossi Eliaz.">
+<meta property="og:image" content="https://zozo123.github.io/the-living-layer/og.png">
+<meta property="og:url" content="https://zozo123.github.io/the-living-layer/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="THE LIVING LAYER">
+<meta name="twitter:description" content="Sandboxes are the new unit of execution. One database becomes the entire system.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000000'/%3E%3Cpath d='M16 20 L48 20 L48 44 L16 44 Z' fill='none' stroke='%23FF2D2D' stroke-width='2.5'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23FF2D2D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000000;
+  --bg-2:#050505;
+  --text:#F5F5F5;
+  --text-dim:#A3A3A3;
+  --text-faint:#666666;
+  --accent:#FF2D2D;
+  --accent-2:#FF5A1F;
+  --line:rgba(255,255,255,0.08);
+  --line-strong:rgba(255,255,255,0.16);
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --sans:"Inter",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  --display:"Space Grotesk","Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:17px;
+  line-height:1.65;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent);color:#000}
+
+/* Space atmosphere */
+.stars{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(1px 1px at 8% 12%, rgba(255,255,255,.7) 50%,transparent 51%),
+    radial-gradient(1.2px 1.2px at 72% 22%, rgba(255,255,255,.55) 50%,transparent 51%),
+    radial-gradient(1px 1px at 23% 68%, rgba(255,255,255,.65) 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 88% 47%, rgba(255,255,255,.4) 50%,transparent 51%),
+    radial-gradient(1px 1px at 41% 91%, rgba(255,255,255,.5) 50%,transparent 51%),
+    radial-gradient(1px 1px at 15% 37%, rgba(255,255,255,.6) 50%,transparent 51%);
+  background-size:1100px 1100px;
+  opacity:.65;
+}
+.grid{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,0.6),transparent 38%);
+}
+
+/* Mission control bar */
+.mission{
+  position:sticky;top:0;z-index:50;
+  border-bottom:1px solid var(--line);
+  background:rgba(0,0,0,0.92);
+  backdrop-filter:blur(12px);
+  padding:11px 6vw;
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:var(--text-dim);
+}
+.mission .left{display:flex;gap:18px;align-items:center}
+.mission .left span{color:var(--text-faint)}
+.mission .accent{color:var(--accent);font-weight:600}
+
+/* Hero — pure SpaceX */
+.hero{
+  min-height:100dvh;
+  display:flex;
+  align-items:center;
+  padding:0 6vw 12vh;
+  position:relative;
+  border-bottom:1px solid var(--line);
+}
+.hero-inner{max-width:1080px}
+.hero-label{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:2.4rem;
+  display:flex;align-items:center;gap:12px;
+}
+.hero-label::after{content:"";height:1px;width:72px;background:var(--accent);opacity:.6}
+h1{
+  font-family:var(--display);
+  font-size:clamp(68px,9.8vw,118px);
+  font-weight:600;
+  line-height:.92;
+  letter-spacing:-0.025em;
+  margin:0 0 2.1rem;
+  max-width:11ch;
+}
+.hero-sub{
+  font-size:clamp(19px,1.75vw,23px);
+  max-width:38ch;
+  color:var(--text-dim);
+  margin-bottom:3.6rem;
+}
+.hero-sub strong{color:var(--text);font-weight:500}
+.hero-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+.pill{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  border:1px solid var(--line-strong);
+  padding:8px 16px;
+  border-radius:999px;
+  color:var(--text-dim);
+  white-space:nowrap;
+}
+.pill.accent{border-color:var(--accent);color:var(--accent)}
+.hero-scroll{
+  position:absolute;bottom:7vh;left:6vw;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+  writing-mode:vertical-rl;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.hero-scroll::after{content:"";display:block;height:52px;width:1px;background:var(--line-strong);margin-top:8px}
+
+/* Sections */
+section{
+  padding:13vh 6vw;
+  border-bottom:1px solid var(--line);
+  position:relative;
+}
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:18px;
+  margin-bottom:5.2vh;
+}
+.section-num{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:0.24em;
+  color:var(--accent);
+  text-transform:uppercase;
+  flex-shrink:0;
+  padding-top:6px;
+}
+h2{
+  font-family:var(--display);
+  font-size:clamp(36px,4.8vw,56px);
+  font-weight:600;
+  line-height:1.0;
+  letter-spacing:-0.018em;
+  margin:0;
+}
+h2 em{font-style:normal;color:var(--accent-2);font-weight:500}
+.lede{
+  max-width:62ch;
+  font-size:18.5px;
+  color:var(--text-dim);
+  margin:2.8vh 0 0;
+}
+.prose{
+  max-width:72ch;
+  font-size:17px;
+  color:#E8E8E8;
+}
+.prose p{margin:1.35em 0}
+.prose strong{color:#fff;font-weight:500}
+.prose .call{
+  margin:2.4em 0;
+  padding-left:1.6em;
+  border-left:3px solid var(--accent);
+  color:#fff;
+  font-size:19px;
+}
+
+/* Two column primitives */
+.primitives{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5vw;
+  margin-top:4vh;
+}
+@media (max-width:860px){
+  .primitives{grid-template-columns:1fr;gap:9vh}
+}
+.prim{
+  border:1px solid var(--line);
+  padding:42px 34px;
+  background:linear-gradient(180deg,var(--bg-2),transparent);
+}
+.prim h3{
+  font-family:var(--display);
+  font-size:26px;
+  margin:0 0 18px;
+  letter-spacing:-0.01em;
+}
+.prim .tag{
+  font-family:var(--mono);
+  font-size:9.5px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--accent);
+  border:1px solid var(--accent);
+  padding:2px 9px;
+  display:inline-block;
+  margin-bottom:22px;
+}
+.prim ul{
+  margin:26px 0 0;
+  padding:0;
+  list-style:none;
+}
+.prim li{
+  padding:10px 0 10px 22px;
+  border-top:1px solid var(--line);
+  color:var(--text-dim);
+  position:relative;
+  font-size:15.5px;
+}
+.prim li:last-child{border-bottom:1px solid var(--line)}
+.prim li::before{
+  content:"→";
+  position:absolute;
+  left:0;
+  color:var(--accent);
+  font-family:var(--mono);
+  font-size:13px;
+}
+
+/* Isolation ladder */
+.ladder{
+  margin:4.5vh 0;
+  border:1px solid var(--line-strong);
+  background:#030303;
+}
+.ladder-head{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  padding:14px 22px;
+  border-bottom:1px solid var(--line);
+  color:var(--text-faint);
+  display:flex;
+  justify-content:space-between;
+}
+.ladder-row{
+  display:flex;
+  align-items:center;
+  padding:18px 22px;
+  border-bottom:1px solid var(--line);
+  gap:18px;
+}
+.ladder-row:last-child{border-bottom:none}
+.ladder-row .tier{
+  font-family:var(--mono);
+  font-size:12px;
+  width:92px;
+  flex-shrink:0;
+  color:var(--accent);
+}
+.ladder-row .desc{
+  flex:1;
+  color:var(--text-dim);
+  font-size:15px;
+}
+.ladder-row .who{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+  white-space:nowrap;
+}
+
+/* Principles */
+.principles{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  margin-top:4vh;
+}
+@media (max-width:780px){.principles{grid-template-columns:1fr}}
+.principle{
+  background:var(--bg);
+  padding:32px 28px 30px;
+  display:flex;
+  gap:18px;
+}
+.principle .num{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--accent);
+  width:26px;
+  flex-shrink:0;
+  padding-top:2px;
+}
+.principle .body{
+  font-size:15.8px;
+  line-height:1.55;
+  color:#E2E2E2;
+}
+
+/* Vignettes */
+.vignettes{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:5vh;
+}
+@media (max-width:980px){.vignettes{grid-template-columns:1fr}}
+.vignette{
+  border:1px solid var(--line);
+  padding:28px 26px;
+  background:linear-gradient(180deg,#0A0A0A,transparent);
+}
+.vignette .year{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+}
+.vignette h4{
+  font-size:19px;
+  margin:10px 0 14px;
+  font-weight:600;
+  line-height:1.25;
+}
+.vignette p{
+  margin:0;
+  color:var(--text-dim);
+  font-size:15.2px;
+}
+
+/* The Work */
+.work{
+  margin-top:5vh;
+}
+.work-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.work-item{
+  background:var(--bg-2);
+  padding:22px 24px;
+  text-decoration:none;
+  color:inherit;
+  display:block;
+  transition:background .2s;
+}
+.work-item:hover{background:#111}
+.work-item .title{
+  font-weight:600;
+  margin-bottom:6px;
+  font-size:15.5px;
+}
+.work-item .desc{
+  font-size:13.5px;
+  color:var(--text-dim);
+  line-height:1.45;
+}
+
+/* Interactive decider */
+.decider{
+  border:1px solid var(--line-strong);
+  background:#020202;
+  padding:32px 28px;
+  margin:4vh 0;
+}
+.decider h3{
+  margin:0 0 22px;
+  font-family:var(--display);
+  font-size:21px;
+}
+.decider label{
+  display:block;
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+  margin:18px 0 8px;
+}
+.decider select{
+  width:100%;
+  background:#000;
+  color:var(--text);
+  border:1px solid var(--line);
+  padding:12px 14px;
+  font-family:var(--mono);
+  font-size:14px;
+  appearance:none;
+}
+.result{
+  margin-top:26px;
+  padding:20px 22px;
+  border:1px solid var(--accent);
+  background:rgba(255,45,45,0.03);
+  font-size:15px;
+  line-height:1.55;
+}
+.result .tier{
+  font-family:var(--mono);
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:0.16em;
+  font-size:11px;
+  margin-bottom:6px;
+}
+
+/* Closer */
+.closer{
+  text-align:center;
+  padding:12vh 6vw 9vh;
+  border-bottom:1px solid var(--line);
+}
+.closer p{
+  max-width:58ch;
+  margin:0 auto;
+  font-size:19px;
+  color:#E6E6E6;
+}
+.closer .sign{
+  margin-top:3.6rem;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+}
+
+/* Footer */
+footer{
+  padding:7vh 6vw 9vh;
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  justify-content:space-between;
+}
+footer a{color:var(--text-dim);text-decoration:none}
+footer a:hover{color:var(--text)}
+
+/* Utility */
+.mono{font-family:var(--mono);letter-spacing:0.06em}
+.rule{margin:5.5vh 0 4vh;border-top:1px solid var(--line)}
+.small{font-size:13.5px;color:var(--text-dim)}
+.reveal{opacity:0;transform:translateY(18px);transition:all .7s cubic-bezier(.2,.6,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+<div class="grid" aria-hidden="true"></div>
+
+<!-- MISSION BAR -->
+<div class="mission">
+  <div class="left">
+    <span><span class="accent">ZOZO123</span> · MISSION 001</span>
+    <span>2026</span>
+  </div>
+  <div>SANDBOXES • STATE • ONE SUBSTRATE</div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">A VISION FOR THE AI ERA OF SOFTWARE</div>
+    <h1>THE LIVING<br>LAYER</h1>
+    <div class="hero-sub">
+      Software will not be <em>deployed</em>.<br>
+      It will be <strong>projected</strong> from one governed, queryable, executable reality.<br>
+      <strong>Sandboxes</strong> are the new unit of execution.<br>
+      <strong>One database</strong> is the entire system.
+    </div>
+    <div class="hero-meta">
+      <div class="pill">EXECUTION ISOLATED BY DEFAULT</div>
+      <div class="pill accent">UI IS A VIEW. LOGIC IS A SANDBOX.</div>
+      <div class="pill">STATE IS THE ONLY SOURCE OF TRUTH</div>
+    </div>
+  </div>
+  <div class="hero-scroll">SCROLL TO ASCEND</div>
+</header>
+
+<!-- 01 THE OLD WORLD -->
+<section id="old">
+  <div class="section-head">
+    <div class="section-num">01 / THE PAST</div>
+    <h2>The Fragmented Stack</h2>
+  </div>
+  <div class="prose">
+    <p>For fifty years we built by stacking independent lies.</p>
+    <p>A frontend repository. A backend repository. A database. An auth service. A deployment pipeline. A logging system. A separate world for each agent that needed to act.</p>
+    <p>Each layer had its own model of reality. They drifted. They fought. Every integration was a new source of failure and security surface.</p>
+    <div class="call">When the primary author of code is no longer a human you can interview, the entire stack becomes a liability.</div>
+    <p>The dominant reader of data is also no longer a human with a dashboard. It is fleets of agents that must act with perfect context, perfect safety, and perfect auditability.</p>
+  </div>
+</section>
+
+<!-- 02 THE PRIMITIVES -->
+<section id="primitives">
+  <div class="section-head">
+    <div class="section-num">02 / THE PRIMITIVES</div>
+    <h2>Two New Fundamentals</h2>
+  </div>
+  <div class="prose">
+    <p>Everything else collapses into these.</p>
+  </div>
+
+  <div class="primitives">
+    <!-- Sandbox -->
+    <div class="prim">
+      <div class="tag">PRIMITIVE ONE</div>
+      <h3>The Sandbox</h3>
+      <p style="color:#D4D4D4;margin:0 0 16px">A disposable, observable, killable computer that an agent can safely inhabit.</p>
+      <p style="color:#A3A3A3;font-size:15px">Docker made code portable. Sandboxes make code <span style="color:#fff">safe to run</span> when the author is a model generating faster than any human can review.</p>
+      <ul>
+        <li>Ephemeral by default. Complete enough to ship real work.</li>
+        <li>Network, filesystem, secrets — all explicitly scoped and logged.</li>
+        <li>Every action is an execution trace that can be replayed or forked.</li>
+        <li>Isolation tiers from process namespaces to microVMs (gVisor, Firecracker, etc.).</li>
+      </ul>
+    </div>
+
+    <!-- Substrate -->
+    <div class="prim">
+      <div class="tag">PRIMITIVE TWO</div>
+      <h3>The Substrate</h3>
+      <p style="color:#D4D4D4;margin:0 0 16px">One living database that holds data, UI, logic, policy, and history.</p>
+      <p style="color:#A3A3A3;font-size:15px">Not “the database for the app”. The database <span style="color:#fff">is</span> the app. Schema, components, agent contracts, sandbox blueprints, permissions, and full causal history are all first-class queryable facts.</p>
+      <ul>
+        <li>UI definitions live as rows. Rendering is projection + safe execution.</li>
+        <li>Business logic runs as governed functions or agents inside attached sandboxes.</li>
+        <li>Every change is versioned, attributable, and forkable.</li>
+        <li>Agents no longer call brittle external APIs. They query and write to the single source of truth.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div style="margin-top:2vh">
+    <div class="section-num" style="margin-bottom:12px">THE ISOLATION LADDER</div>
+    <div class="ladder">
+      <div class="ladder-head">
+        <div>TIER</div>
+        <div style="flex:1;padding-left:18px">ISOLATION</div>
+        <div>PRIMARY USE</div>
+      </div>
+      <div class="ladder-row"><div class="tier">0</div><div class="desc">Same process / namespace</div><div class="who">Trusted local tools</div></div>
+      <div class="ladder-row"><div class="tier">1</div><div class="desc">Container (Docker / Podman)</div><div class="who">Most dev &amp; CI today</div></div>
+      <div class="ladder-row"><div class="tier">2</div><div class="desc">gVisor / user-space kernel</div><div class="who">AI agent code execution</div></div>
+      <div class="ladder-row"><div class="tier">3</div><div class="desc">MicroVM (Firecracker, Cloud Hypervisor)</div><div class="who">Untrusted multi-tenant agents</div></div>
+      <div class="ladder-row"><div class="tier">4</div><div class="desc">Full VM or dedicated machine</div><div class="who">Highest blast-radius workloads</div></div>
+    </div>
+    <div class="small" style="margin-left:6px">Generation got cheap. Safe execution is the new bottleneck.</div>
+  </div>
+</section>
+
+<!-- 03 THE COLLAPSE -->
+<section id="collapse">
+  <div class="section-head">
+    <div class="section-num">03 / THE COLLAPSE</div>
+    <h2>One Layer to Rule Them All</h2>
+  </div>
+  <div class="prose">
+    <p>The frontend repository disappears. The backend repository disappears. The “app” is now three things:</p>
+    <p style="margin:1.8em 0 1.8em 1.6em;font-size:18px">
+      <strong>1.</strong> A schema + policy definition in the substrate.<br>
+      <strong>2.</strong> A set of sandbox templates and agent contracts attached to that schema.<br>
+      <strong>3.</strong> Projections (views) that agents or humans can safely render and mutate.
+    </p>
+    <p>When you want new behavior, you do not ship a new binary. You evolve the schema, adjust the sandbox scopes, and let agents operating inside governed execution environments materialize the new reality.</p>
+    <p>“Deploy” becomes a historical curiosity. What remains is <em>instantiation</em> — spawning a sandbox with a view over a slice of the living layer.</p>
+  </div>
+</section>
+
+<!-- 04 PRINCIPLES -->
+<section id="principles">
+  <div class="section-head">
+    <div class="section-num">04 / THE LAW</div>
+    <h2>Principles of the Living Layer</h2>
+  </div>
+  <div class="principles">
+    <div class="principle"><div class="num">01</div><div class="body">Every mutation that can affect the world must occur inside an explicitly scoped sandbox or be rejected.</div></div>
+    <div class="principle"><div class="num">02</div><div class="body">The schema <em>is</em> the application. UI, workflows, and permissions are derived data.</div></div>
+    <div class="principle"><div class="num">03</div><div class="body">There is only one source of truth. All other stores are materialized views or caches that can be invalidated.</div></div>
+    <div class="principle"><div class="num">04</div><div class="body">Execution history is first-class data. Every agent action is queryable, attributable, and replayable.</div></div>
+    <div class="principle"><div class="num">05</div><div class="body">Forking reality is a primitive operation. Clone a slice of state + sandbox lineage into a new branch.</div></div>
+    <div class="principle"><div class="num">06</div><div class="body">Agents are not users of the system. They are projections of the system that can safely act.</div></div>
+    <div class="principle"><div class="num">07</div><div class="body">Security is not a perimeter. It is the shape of every sandbox and every permission row in the layer.</div></div>
+    <div class="principle"><div class="num">08</div><div class="body">Latency and consistency are negotiated at the projection layer, not by gluing services together.</div></div>
+    <div class="principle"><div class="num">09</div><div class="body">The human role shifts from writing glue code to designing schemas, policies, and sandbox contracts.</div></div>
+    <div class="principle"><div class="num">10</div><div class="body">The layer must be observable by default. If you cannot query why something happened, it did not happen safely.</div></div>
+  </div>
+</section>
+
+<!-- 05 THE WORLD -->
+<section id="future">
+  <div class="section-head">
+    <div class="section-num">05 / THE FUTURE</div>
+    <h2>The World That Follows</h2>
+  </div>
+  <div class="prose">
+    <p>These are not predictions. They are the logical destination of the primitives already emerging.</p>
+  </div>
+  <div class="vignettes">
+    <div class="vignette">
+      <div class="year">2027 — 2028</div>
+      <h4>Personal Living Layers</h4>
+      <p>Every knowledge worker has a personal substrate. Their notes, emails, agents, tools, and history are one queryable, sandboxed reality. “Apps” are just different projections granted different execution scopes.</p>
+    </div>
+    <div class="vignette">
+      <div class="year">2028 — 2030</div>
+      <h4>The End of the Company App</h4>
+      <p>Organizations run dozens of governed living layers instead of hundreds of SaaS products. New “software” arrives as a schema patch + sandbox policy bundle. Integration is a permission grant, not an API key dance.</p>
+    </div>
+    <div class="vignette">
+      <div class="year">2030 — 2035</div>
+      <h4>Software as Reality Forks</h4>
+      <p>Most economic activity is the careful forking, merging, and governance of shared layers. The companies that win are the ones with the best schemas and the tightest, safest sandbox contracts — not the prettiest UIs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE -->
+<section id="decide">
+  <div class="section-head">
+    <div class="section-num">DECIDE</div>
+    <h2>What tier does your idea require?</h2>
+  </div>
+  <div class="decider">
+    <h3>Quick isolation &amp; substrate estimator</h3>
+    <label>Who is writing the code that will run?</label>
+    <select id="author">
+      <option value="human">Trusted human engineers (mostly reviewed)</option>
+      <option value="hybrid">Humans + occasional AI generation</option>
+      <option value="agent" selected>Autonomous agents or heavy AI generation</option>
+      <option value="multi">Multi-agent systems with tool use</option>
+    </select>
+
+    <label>Blast radius if something goes wrong?</label>
+    <select id="blast">
+      <option value="low">Low — internal dev tool, throwaway data</option>
+      <option value="med" selected>Medium — customer data, money movement, infra changes</option>
+      <option value="high">High — production systems, secrets, cross-tenant impact</option>
+    </select>
+
+    <label>State model complexity?</label>
+    <select id="state">
+      <option value="simple">Simple documents or key-value</option>
+      <option value="rich" selected>Rich relational + vector + time-travel needed</option>
+      <option value="world">World model — the DB literally is the product</option>
+    </select>
+
+    <div id="result" class="result" style="display:none"></div>
+  </div>
+  <div class="small">This is not a product recommendation. It is a thinking tool. The right answer is almost always higher isolation + richer substrate than you first assume.</div>
+</section>
+
+<!-- THE WORK -->
+<section id="work">
+  <div class="section-head">
+    <div class="section-num">THE WORK</div>
+    <h2>Already Under Construction</h2>
+  </div>
+  <div class="prose">
+    <p>The following artifacts are real, public, and already pushing pieces of this future into existence. They are not vapor.</p>
+  </div>
+
+  <div class="work">
+    <div class="work-grid">
+      <a class="work-item" href="https://zozo123.github.io/sandboxes-why-how-when/" target="_blank" rel="noopener">
+        <div class="title">The Sandbox Shift →</div>
+        <div class="desc">Vendor-neutral field guide. Why containers are no longer enough. Interactive decider. Isolation ladder.</div>
+      </a>
+      <a class="work-item" href="https://zozo123.github.io/databases-in-the-ai-era/" target="_blank" rel="noopener">
+        <div class="title">Databases in the Age of AI →</div>
+        <div class="desc">Full graduate course + two essays. What fifty years of database systems must become when agents are the primary readers and writers.</div>
+      </a>
+      <a class="work-item" href="https://github.com/zozo123/crabbox" target="_blank" rel="noopener">
+        <div class="title">Crabbox →</div>
+        <div class="desc">Warm a box. Sync the diff. Run the suite. Real remote sandboxes for agentic development and evaluation loops.</div>
+      </a>
+      <a class="work-item" href="https://github.com/zozo123/conductor" target="_blank" rel="noopener">
+        <div class="title">Conductor →</div>
+        <div class="desc">Event-driven, durable agentic workflow engine. The execution backbone for long-running agents that must survive and resume.</div>
+      </a>
+      <a class="work-item" href="https://github.com/zozo123/harbor" target="_blank" rel="noopener">
+        <div class="title">Harbor →</div>
+        <div class="desc">Framework for agent evaluations and RL environments. Turning repos into measurable, sandboxed training grounds.</div>
+      </a>
+      <a class="work-item" href="https://github.com/zozo123/deepagents" target="_blank" rel="noopener">
+        <div class="title">DeepAgents →</div>
+        <div class="desc">The batteries-included agent harness. Production patterns for agents that do real, stateful, auditable work.</div>
+      </a>
+      <a class="work-item" href="https://github.com/zozo123/odysseus" target="_blank" rel="noopener">
+        <div class="title">Odysseus →</div>
+        <div class="desc">Self-hosted AI workspace. Your own layer, running anywhere.</div>
+      </a>
+      <a class="work-item" href="https://github.com/zozo123/agentic-airbyte" target="_blank" rel="noopener">
+        <div class="title">Agentic Airbyte →</div>
+        <div class="desc">Agents orchestrating Crabbox sandboxes as reliable ETL workers. The data movement substrate for the living layer.</div>
+      </a>
+    </div>
+  </div>
+  <div style="margin-top:22px">
+    <a href="https://github.com/zozo123" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:1px">ALL PUBLIC REPOS ON GITHUB →</a>
+  </div>
+</section>
+
+<!-- CLOSER -->
+<div class="closer">
+  <p>This is not a pitch deck. It is a falsifiable description of the direction the best builders are already being forced to take by the physics of AI-generated code and agent-native workloads.</p>
+  <p style="margin-top:1.6em;font-size:15.5px;color:#A3A3A3">The question is no longer whether we will have sandboxes and unified substrates.<br>It is who will design the cleanest, safest, most powerful versions first.</p>
+  <div class="sign">YOSSI ELIAZ — ZOZO123 — 2026</div>
+</div>
+
+<footer>
+  <div>
+    <a href="https://zozo123.github.io/" target="_blank" rel="noopener">COLLECTED WORKS</a> &nbsp;·&nbsp;
+    <a href="https://github.com/zozo123/the-living-layer" target="_blank" rel="noopener">SOURCE</a> &nbsp;·&nbsp;
+    <a href="https://x.com/YossiEliaz" target="_blank" rel="noopener">𝕏</a>
+  </div>
+  <div style="color:#444">SINGLE FILE ARTIFACT. FORK IT. CRITIQUE IT. BUILD THE LAYER.</div>
+</footer>
+
+<script>
+(function(){
+  // Simple scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold: 0.12});
+    reveals.forEach(r => io.observe(r));
+  } else {
+    reveals.forEach(r => r.classList.add('in'));
+  }
+
+  // Interactive decider
+  const author = document.getElementById('author');
+  const blast = document.getElementById('blast');
+  const state = document.getElementById('state');
+  const result = document.getElementById('result');
+
+  function updateResult(){
+    const a = author.value;
+    const b = blast.value;
+    const s = state.value;
+
+    let tier = "TIER 2 — gVisor / hardened container";
+    let advice = "Default for most agentic workloads. Strong isolation with acceptable performance. Pair with a rich substrate (relational + vector + history).";
+
+    if (a === "human" && b === "low") {
+      tier = "TIER 1 — Container sufficient";
+      advice = "Traditional CI/CD or local dev still works. But start modeling your state as a substrate anyway — future agents will thank you.";
+    } else if (a === "multi" || b === "high") {
+      tier = "TIER 3 — MicroVM (Firecracker class)";
+      advice = "You need real kernel isolation and fast boot. The substrate must support branching, time-travel, and strict per-sandbox row-level + capability policies.";
+    }
+
+    if (s === "world") {
+      tier = "TIER 3+ with full Substrate";
+      advice = "Your product literally is the living layer. Every UI surface, every agent behavior, every permission is data + safe execution. Invest in schema design and policy language above all.";
+    }
+
+    result.style.display = "block";
+    result.innerHTML = `<div class="tier">${tier}</div><div>${advice}</div>`;
+  }
+
+  [author, blast, state].forEach(el => el.addEventListener('change', updateResult));
+  // initial
+  setTimeout(updateResult, 120);
+
+  // Keyboard hint
+  document.addEventListener('keydown', function(e){
+    if (e.key === "?" && document.activeElement.tagName === "BODY") {
+      const d = document.getElementById('decide');
+      if (d) d.scrollIntoView({behavior:"smooth", block:"start"});
+      e.preventDefault();
+    }
+  });
+
+  // Subtle star twinkle (very light)
+  const starsEl = document.querySelector('.stars');
+  if (starsEl) {
+    setInterval(() => {
+      starsEl.style.opacity = (0.55 + Math.random() * 0.18).toFixed(2);
+    }, 4200);
+  }
+})();
+</script>
+</body>
+</html>
