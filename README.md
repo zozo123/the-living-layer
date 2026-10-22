@@ -1,44 +1,36 @@
-# THE LIVING LAYER
+# The Living Layer
 
-**Sandboxes. State. One Substrate.**
+**An architecture thesis: sandboxes for execution, governed state for context.**
 
-A single-file, high-signal vision document for the AI era of software.
+A speculative essay about agent-native software. It asks what happens when execution history, policy, UI definitions, and data share one queryable substrate. This repository publishes the essay and an interactive thinking tool; it does not ship that platform.
 
-- Live: https://zozo123.github.io/the-living-layer/
-- Source: this repo (one `index.html` + `.nojekyll`)
+[Read the essay](https://zozo123.github.io/the-living-layer/) · [Yossi Eliaz](https://github.com/zozo123)
 
-## Philosophy
+## The proposal
 
-When the primary author of code is a model and the primary reader of data is an agent, the old stack (frontend repo, backend repo, database, auth, deploy pipeline) becomes a liability surface.
+- **Sandbox:** scoped, observable execution for agent-authored work.
+- **Substrate:** versioned data, policy, agent contracts, and history.
+- **Projection:** views over that state for people and agents.
 
-Two new primitives dominate:
+The essay argues for this direction. Its unified architecture and dated scenarios are hypotheses, not measured outcomes or a delivery roadmap.
 
-1. **The Sandbox** — the only safe place to let non-human authors execute. Disposable, observable, killable computers with explicit scopes.
-2. **The Substrate** — one living database that contains not only facts, but UI definitions, agent contracts, sandbox blueprints, permissions, full causal history, and policy. The schema *is* the application.
+## Evidence and references
 
-UI becomes a projection. Logic becomes governed execution attached to that substrate. "Deploy" becomes instantiation of a sandbox with a view.
+- **My writing:** [The Sandbox Shift](https://zozo123.github.io/sandboxes-why-how-when/) and [Databases in the Age of AI](https://zozo123.github.io/databases-in-the-ai-era/).
+- **My prototype:** [Agentic Airbyte](https://github.com/zozo123/agentic-airbyte), a sandboxed data-movement POC with a published run receipt and explicit scope. It is one experiment, not the complete Living Layer.
+- **Existing upstream software:** [Crabbox](https://github.com/openclaw/crabbox), [Conductor](https://github.com/conductor-oss/conductor), [Harbor](https://github.com/harbor-framework/harbor), [DeepAgents](https://github.com/langchain-ai/deepagents), and [Odysseus](https://github.com/arcahyadi/odysseus). Repositories with these names in my account are forks. Original authorship belongs to those upstream projects.
 
-This is not marketing. It is the logical destination of the physics already visible in 2026.
-
-## Related work by the same author
-
-- [The Sandbox Shift](https://zozo123.github.io/sandboxes-why-how-when/) — field manual + interactive decider
-- [Databases in the Age of AI](https://zozo123.github.io/databases-in-the-ai-era/) — full course + essays on the database as agent substrate
-- [Crabbox](https://github.com/zozo123/crabbox), [Conductor](https://github.com/zozo123/conductor), [Harbor](https://github.com/zozo123/harbor), [DeepAgents](https://github.com/zozo123/deepagents) and others — real artifacts building pieces of the layer today
-
-## How to view locally
+## Local preview
 
 ```bash
 python3 -m http.server 8787
-# open http://localhost:8787
+# open http://localhost:8787/
 ```
 
-## Deploy
-
-This repo is configured for GitHub Pages (root, no Jekyll).
+The site is a single `index.html` served by GitHub Pages, with `.nojekyll`.
 
 ## License / use
 
-Fork it. Critique it. Help make the layer real. CC BY 4.0 or just be excellent.
+CC BY 4.0. Fork it, critique it, test the assumptions.
 
-— Yossi Eliaz (zozo123), 2026
+Yossi Eliaz · 2026
