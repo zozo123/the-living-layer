@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#FFFFFF" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="0.6" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="fadeMask">
+      <rect width="1200" height="630" fill="url(#fade)"/>
+    </mask>
+  </defs>
+
+  <rect width="1200" height="630" fill="#000000"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#fadeMask)"/>
+
+  <!-- Eyebrow -->
+  <text x="80" y="112" font-family="Menlo, monospace" font-size="20" letter-spacing="4" fill="#FF2D2D">SANDBOXES • STATE • ONE SUBSTRATE</text>
+
+  <!-- Mark (from the favicon) -->
+  <rect x="1040" y="82" width="80" height="60" fill="none" stroke="#FF2D2D" stroke-width="3"/>
+  <circle cx="1080" cy="112" r="11" fill="#FF2D2D"/>
+
+  <!-- Title -->
+  <text font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="140" letter-spacing="-1.5" fill="#F5F5F5">
+    <tspan x="72" y="268">THE LIVING</tspan>
+    <tspan x="72" y="396">LAYER</tspan>
+  </text>
+
+  <!-- Accent rule -->
+  <rect x="80" y="434" width="96" height="6" fill="#FF2D2D"/>
+
+  <!-- Subtitle -->
+  <text x="80" y="494" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="29" fill="#A3A3A3">A speculative architecture thesis: <tspan fill="#F5F5F5">sandboxed execution + governed state</tspan></text>
+
+  <!-- Footer -->
+  <line x1="80" y1="538" x2="1120" y2="538" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1"/>
+  <text x="80" y="580" font-family="Menlo, monospace" font-size="20" letter-spacing="2" fill="#A3A3A3"><tspan fill="#F5F5F5">Yossi Eliaz</tspan> · zozo123.github.io/the-living-layer</text>
+</svg>

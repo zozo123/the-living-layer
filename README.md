@@ -1,8 +1,8 @@
 # The Living Layer
 
-**An architecture thesis: sandboxes for execution, governed state for context.**
+**A speculative architecture thesis: sandboxed execution + governed state.**
 
-A speculative essay about agent-native software. It asks what happens when execution history, policy, UI definitions, and data share one queryable substrate. This repository publishes the essay and an interactive thinking tool; it does not ship that platform.
+A single-page essay and interactive thinking tool by Yossi Eliaz. It asks whether agent-native software could run on one governed, queryable substrate where execution history, policy, UI definitions, and data live together, with UI, policy, and history as views. It publishes the argument; it does not ship that platform.
 
 [Read the essay](https://zozo123.github.io/the-living-layer/) · [Yossi Eliaz](https://github.com/zozo123)
 
@@ -12,7 +12,7 @@ A speculative essay about agent-native software. It asks what happens when execu
 - **Substrate:** versioned data, policy, agent contracts, and history.
 - **Projection:** views over that state for people and agents.
 
-The essay argues for this direction. Its unified architecture and dated scenarios are hypotheses, not measured outcomes or a delivery roadmap.
+The essay argues for this direction. Its unified architecture and its three scenarios are hypotheses, not measured outcomes, forecasts, or a delivery roadmap.
 
 ## Evidence and references
 
@@ -27,7 +27,11 @@ python3 -m http.server 8787
 # open http://localhost:8787/
 ```
 
-The site is a single `index.html` served by GitHub Pages, with `.nojekyll`.
+The site is a single `index.html` served by GitHub Pages, with `.nojekyll`. `og.png` is the social share card, rendered from `og.svg`:
+
+```bash
+rsvg-convert -w 1200 -h 630 og.svg -o og.png
+```
 
 ## License / use
 
